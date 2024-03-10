@@ -99,7 +99,7 @@ export default function FilterMenu({
             <use href={`${sprite}#icon-chevron-down`} />
           </DropdownSvg>
           <DropdownButton width="221px">
-            {selectedLanguage || 'Select Language'}
+            {selectedLanguage || 'Language'}
           </DropdownButton>
           <DropdownList>
             {languageOptions.map((language, index) => (
@@ -122,7 +122,7 @@ export default function FilterMenu({
             <use href={`${sprite}#icon-chevron-down`} />
           </DropdownSvg>
           <DropdownButton width="198px">
-            {selectedLevels || 'Select Level'}
+            {selectedLevels || 'Level'}
           </DropdownButton>
           <DropdownList>
             {levelOptions.map((level, index) => (
