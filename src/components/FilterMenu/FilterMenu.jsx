@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { getDatabase, ref, get } from 'firebase/database';
+import { toast } from 'react-toastify';
+import sprite from '../../img/svg-file.svg';
 import {
   Dropdown,
   DropdownButton,
@@ -9,9 +12,6 @@ import {
   TitleMenu,
   WraperMenu,
 } from './FilterMenu.styled';
-import { getDatabase, ref, get } from 'firebase/database';
-import { toast } from 'react-toastify';
-import sprite from '../../img/svg-file.svg';
 
 export default function FilterMenu({
   setTeachers,
@@ -79,16 +79,8 @@ export default function FilterMenu({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [db, selectedLanguage, selectedLevels, selectedPrices, setTeachers]);
 
-  const handleLanguageChange = value => {
-    setSelectedLanguage(value);
-  };
-
-  const handleLevelChange = value => {
-    setSelectedLevels(value);
-  };
-
-  const handlePriceChange = value => {
-    setSelectedPrices(value);
+  const handleMenuChange = (value, setValue) => {
+    setValue(value);
   };
 
   const resetFilters = () => {
@@ -106,18 +98,15 @@ export default function FilterMenu({
           <DropdownSvg width={20} height={20}>
             <use href={`${sprite}#icon-chevron-down`} />
           </DropdownSvg>
-          <DropdownButton
-            width="221px"
-            onClick={() => handleLanguageChange(!selectedLanguage)}
-          >
-            {selectedLanguage || 'Language'}
+          <DropdownButton width="221px">
+            {selectedLanguage || 'Select Language'}
           </DropdownButton>
           <DropdownList>
             {languageOptions.map((language, index) => (
               <DropdownItem
                 key={index}
                 value={language}
-                onClick={() => handleLanguageChange(language)}
+                onClick={() => handleMenuChange(language, setSelectedLanguage)}
               >
                 {language}
               </DropdownItem>
@@ -132,18 +121,15 @@ export default function FilterMenu({
           <DropdownSvg width={20} height={20}>
             <use href={`${sprite}#icon-chevron-down`} />
           </DropdownSvg>
-          <DropdownButton
-            width="198px"
-            onClick={() => handleLevelChange(!selectedLevels)}
-          >
-            {selectedLevels || 'Level'}
+          <DropdownButton width="198px">
+            {selectedLevels || 'Select Level'}
           </DropdownButton>
           <DropdownList>
             {levelOptions.map((level, index) => (
               <DropdownItem
                 key={index}
                 value={level}
-                onClick={() => handleLevelChange(level)}
+                onClick={() => handleMenuChange(level, setSelectedLevels)}
               >
                 {level}
               </DropdownItem>
@@ -158,12 +144,7 @@ export default function FilterMenu({
           <DropdownSvg width={20} height={20}>
             <use href={`${sprite}#icon-chevron-down`} />
           </DropdownSvg>
-          <DropdownButton
-            width="124px"
-            onClick={() => handlePriceChange(!selectedPrices)}
-          >
-            {selectedPrices + ' $'}
-          </DropdownButton>
+          <DropdownButton width="124px">{selectedPrices + ' $'}</DropdownButton>
           <DropdownList>
             {levelPrices
               .sort((a, b) => a - b)
@@ -171,7 +152,7 @@ export default function FilterMenu({
                 <DropdownItem
                   key={index}
                   value={price}
-                  onClick={() => handlePriceChange(price)}
+                  onClick={() => handleMenuChange(price, setSelectedPrices)}
                 >
                   {price}
                 </DropdownItem>
